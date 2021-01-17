@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nischal Shakya</title>
+    <style>
+        .main{
+            text-align:center;
+
+        }
+
+
+    </style>
+
+
+
+</head>
+<body>
+<div id="loading">
+    loading ...
+
+</div>
+    <div class="main" id="mainContainer" hidden>
+    <img id="profileimg"    height="100"
+    width="100"/>
+
+    <h2 id="fullname"></h2>
+    <p id="follower"></p>
+        <p>
+            <a id="githublink">My Github</a>
+
+        </p>
+<h3>My Projects</h3>
+<p id="myProject"></p>
+
+        <a class="twitter-timeline" data-width="300" data-height="400" href="https://twitter.com/Nischalshk?ref_src=twsrc%5Etfw">Tweets by Nischalshk</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><br>
+        <a href="https://twitter.com/Nischalshk?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @Nischalshk</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    
+    </div>
+   
+
+
+<script>
+    fetch("https://api.github.com/users/nischalshk")
+    .then(
+        response=>response.json()
+    )
+    .then(function(data){
+        console.log(data)
+
+        let followersCount=data['followers']
+        let followersInfo=`I have been followerd by ${followersCount} people.`
+       // let projectCount=data['public_repos'];
+        document.getElementById('profileimg').src=data['avatar_url']
+        document.getElementById('fullname').textContent=data['name']
+        document.getElementById('follower').textContent=followersInfo
+        document.getElementById('githublink').href=data['html_url']
+        document.getElementById('mainContainer').hidden=false
+        document.getElementById('loading').hidden=true
+
+
+
+
+
+    });
+
+
+    fetch("https://api.github.com/users/nischalshk/repos")
+    .then(
+        response=>response.json()
+    )
+    .then(function(dataa){
+        console.log(dataa)
+
+        let output='';
+        output +='<ul>';
+            dataa.forEach(function(dataa){
+                output+=`<li>${dataa.name}</li>`;
+
+            });
+            output+='</ul>';
+            document.getElementById('myProject').innerHTML=output;
+    });
+</script>
+
+
+
+
+</body>
+</html>
